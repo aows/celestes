@@ -25,3 +25,11 @@ window.ArticlesCollection = Backbone.Collection.extend({
     url: "/articles"
 
 });
+
+window.CoverNewsCollection = Backbone.Collection.extend({
+
+    model: Article,
+
+    url: "/articles/cover"
+
+});

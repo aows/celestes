@@ -16,7 +16,17 @@ var AppRouter = Backbone.Router.extend({
         var articleList = new ArticlesCollection();
         articleList.fetch( { 
             success: function() {
-                $("#content").html(new ArticleListView({model: articleList}).el);  
+                $("#news").html(new ArticleListView({model: articleList}).el);  
+            },
+            fail: function() {
+                console.debug("fail");
+            }
+        } );
+
+        var coverNewsList = new CoverNewsCollection();
+        coverNewsList.fetch( { 
+            success: function() {
+                $("#cover").html(new CoverNewsListView({model: coverNewsList}).el);  
             },
             fail: function() {
                 console.debug("fail");
@@ -27,7 +37,7 @@ var AppRouter = Backbone.Router.extend({
 
 });
 
-utils.loadTemplate(['HomeView', 'ArticleListItemView'], function() {
+utils.loadTemplate(['HomeView', 'ArticleListItemView', 'CoverNewsListItemView'], function() {
     app = new AppRouter();
     Backbone.history.start();
 });

@@ -1,8 +1,10 @@
 var express = require('express'),
     path = require('path'),
+    cron = require('cron'),
     articles = require('./articles');
  
-// get the articles
+// config cron jobs the articles
+new cron.CronJob('00 */10 * * * *', articles.parseFeeds, null, true);
 articles.parseFeeds();
 
 // init the app
@@ -16,6 +18,7 @@ app.configure(function () {
 });
 
 app.get('/articles', articles.showAll);
+app.get('/articles/cover', articles.coverNews);
  
 app.listen(3000);
 console.log('Listening on port 3000...');
