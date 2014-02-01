@@ -4,7 +4,9 @@ var FeedParser = require('feedparser')
     articles = [];
 
 var sources = [ { name: 'Moi Celeste', url: 'http://www.moiceleste.com/feeds/posts/default?alt=rss' },
-                { name: 'Noticias Celta', url: 'http://feeds.feedburner.com/noticiascelta/tMXm' } ];
+                { name: 'Noticias Celta', url: 'http://feeds.feedburner.com/noticiascelta/tMXm' },
+                { name: 'Marca.com', url: 'http://marca.feedsportal.com/rss/futbol_equipos_celta.xml' },
+                { name: 'La Voz de Galicia', url: 'http://www.lavozdegalicia.es/celta/index.xml' } ];
 
 exports.showAll = function(req, res) {
 	var toRet = _.sortBy( articles, function( article ) {
@@ -54,12 +56,13 @@ exports.parseFeeds = function() {
 			      		source: source.name,
 			      		score: 0
 		    		};
-		    		
 		    		request( { url: "https://api.facebook.com/method/fql.query?query=select total_count,like_count,comment_count,share_count,click_count from link_stat where url='" + item.link + "'&format=json",
-		    			       timeout: 1000 },
+		    			       timeout: 2000 },
 		    			function( error, response, body ) {
 		    				if ( !error && response.statusCode == 200 ) {
 		    					article.score += eval(body)[0].total_count;
+		    					articles.push( article );
+		    				} else {
 		    					articles.push( article );
 		    				}
 		    			}

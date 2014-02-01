@@ -8,9 +8,10 @@ window.ArticleListView = Backbone.View.extend({
         var articles = this.model.models;
         var len = articles.length;
 
-        $(this.el).html('<ul class="news"></ul>');
+        $(this.el).html('<div class="news"></div>');
 
         _.each( articles, function( article ) {
+            article.set("formattedDate", new Date(article.get("pubdate")).format("hh:MM dd/mm/yy"));
             $('.news', this.el).append(new ArticleListItemView({model: article}).render().el);
         }, this);
 
@@ -20,13 +21,13 @@ window.ArticleListView = Backbone.View.extend({
 
 window.ArticleListItemView = Backbone.View.extend({
 
-    tagName: "li",
+    tagName: "div",
 
     initialize: function () {
     },
 
     render: function () {
-        $(this.el).html(this.template(this.model.toJSON()));
+        $(this.el).html(this.template(this.model.toJSON())).addClass("row");
         return this;
     }
 
@@ -46,6 +47,7 @@ window.CoverNewsListView = Backbone.View.extend({
         $(this.el).html('<div class="row"></div>');
 
         _.each( articles, function( article ) {
+            article.set("formattedDate", new Date(article.get("pubdate")).format("hh:MM dd/mm/yy"));
             $('.row', this.el).append(new CoverNewsListItemView({model: article}).render().el);
         }, this);
 

@@ -26,7 +26,7 @@ var AppRouter = Backbone.Router.extend({
         var coverNewsList = new CoverNewsCollection();
         coverNewsList.fetch( { 
             success: function() {
-                $("#cover").html(new CoverNewsListView({model: coverNewsList}).el);  
+                $("#cover").html(new CoverNewsListView({model: coverNewsList}).el);
             },
             fail: function() {
                 console.debug("fail");

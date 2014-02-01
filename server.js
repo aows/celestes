@@ -4,7 +4,7 @@ var express = require('express'),
     articles = require('./articles');
  
 // config cron jobs the articles
-new cron.CronJob('00 */10 * * * *', articles.parseFeeds, null, true);
+new cron.CronJob('00 */30 * * * *', articles.parseFeeds, null, true);
 articles.parseFeeds();
 
 // init the app
