@@ -19,5 +19,8 @@ app.configure(function () {
 
 app.get('/articles', articles.showAll);
 app.get('/articles/cover', articles.coverNews);
- 
-app.listen(80);
+
+var port = Number(process.env.PORT || 5000); 
+app.listen(port, function() {
+  console.log("Listening on " + port);
+});
