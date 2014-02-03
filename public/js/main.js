@@ -8,36 +8,26 @@ var AppRouter = Backbone.Router.extend({
     },
 
     home: function (id) {
-        if (!this.homeView) {
-            this.homeView = new HomeView();
-        }
+        var that = this;
+        
+        this.homeView = new LoadingView();
         $('#content').html(this.homeView.el);
 
         var articleList = new ArticlesCollection();
-        articleList.fetch( { 
-            success: function() {
-                $("#news").html(new ArticleListView({model: articleList}).el);  
-            },
-            fail: function() {
-                console.debug("fail");
-            }
-        } );
-
         var coverNewsList = new CoverNewsCollection();
-        coverNewsList.fetch( { 
-            success: function() {
-                $("#cover").html(new CoverNewsListView({model: coverNewsList}).el);
-            },
-            fail: function() {
-                console.debug("fail");
-            }
+
+        $.when(articleList.fetch(), coverNewsList.fetch()).done( function() {
+            that.homeView = new HomeView();
+            $('#content').html(that.homeView.el);
+            $("#news").html(new ArticleListView({model: articleList}).el);
+            $("#cover").html(new CoverNewsListView({model: coverNewsList}).el);
         } );
 
     }
 
 });
 
-utils.loadTemplate(['HomeView', 'ArticleListItemView', 'CoverNewsListItemView'], function() {
+utils.loadTemplate(['HomeView', 'LoadingView', 'ArticleListItemView', 'CoverNewsListItemView'], function() {
     app = new AppRouter();
     Backbone.history.start();
 });

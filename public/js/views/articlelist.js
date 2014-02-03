@@ -5,12 +5,10 @@ window.ArticleListView = Backbone.View.extend({
     },
 
     render: function () {
-        var articles = this.model.models;
-        var len = articles.length;
 
         $(this.el).html('<div class="news"></div>');
 
-        _.each( articles, function( article ) {
+        _.each( this.model.models, function( article ) {
             article.set("formattedDate", new Date(article.get("pubdate")).format("hh:MM dd/mm/yy"));
             $('.news', this.el).append(new ArticleListItemView({model: article}).render().el);
         }, this);
@@ -41,12 +39,10 @@ window.CoverNewsListView = Backbone.View.extend({
     },
 
     render: function () {
-        var articles = this.model.models;
-        var len = articles.length;
 
         $(this.el).html('<div class="row"></div>');
 
-        _.each( articles, function( article ) {
+        _.each( this.model.models, function( article ) {
             article.set("formattedDate", new Date(article.get("pubdate")).format("hh:MM dd/mm/yy"));
             $('.row', this.el).append(new CoverNewsListItemView({model: article}).render().el);
         }, this);
