@@ -1,6 +1,11 @@
-<div class="col-md-3">
-	<img class="img-responsive" src="<%= image.url %>" />
-</div>
-<div class="col-md-9">
-	<a href='<%= link %>'><%= title %></a><!-- [<%= source %>] - <%= score %> -->
+<div class="row">
+	<div class="col-md-3">
+		{{#if image}}
+		<img class="img-responsive" src="{{ image.url }}" />
+		{{/if}}
+	</div>
+	<div class="col-md-9">
+		<h4 class="list-group-item-heading">{{ title }}</h4>
+		<p>{{ source }}, <abbr class="timeago" title="{{ pubdate }}">{{formattedDate}}</abbr></p>
+	</div>
 </div>

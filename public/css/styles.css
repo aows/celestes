@@ -128,7 +128,7 @@ div.card .list-group,div.card .list-group-item {
 	height: 7px;
 }
 .container {
-	width: 80%;
+	width: 90%;
 }
 .page-header {
 	border: none;
@@ -158,9 +158,13 @@ div.card .list-group,div.card .list-group-item {
 .statistics li {
 	margin-bottom: 5px;
 }
-.news .row {
+#news .row {
 	margin-bottom: 10px;
+	min-height: 75px;
 }
+	#news .row .col-md-9 {
+		min-height: 75px;
+	}
 
 
 

@@ -6,14 +6,14 @@ window.ArticleListView = Backbone.View.extend({
 
     render: function () {
 
-        $(this.el).html('<div class="news"></div>');
-
         _.each( this.model.models, function( article ) {
             // format date
             article.set("formattedDate", new Date(article.get("pubdate")).format("hh:MM dd/mm/yy"));
 
-            $('.news', this.el).append(new ArticleListItemView({model: article}).render().el);
+            $(this.el).append(new ArticleListItemView({model: article}).render().el);
         }, this);
+
+        $( 'abbr.timeago', this.el ).timeago();
 
         return this;
     }
@@ -21,13 +21,15 @@ window.ArticleListView = Backbone.View.extend({
 
 window.ArticleListItemView = Backbone.View.extend({
 
-    tagName: "div",
+    tagName: "a",
 
     initialize: function () {
     },
 
     render: function () {
-        $(this.el).html(this.template(this.model.toJSON())).addClass("row");
+        var template = Handlebars.compile(this.template());
+        $(this.el).html(template(this.model.toJSON())).addClass("list-group-item");
+        $(this.el).attr('href', this.model.get('link'));
         return this;
     }
 

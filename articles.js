@@ -12,14 +12,14 @@ exports.showAll = function(req, res) {
 	var toRet = _.sortBy( articles, function( article ) {
 					return new Date(article.pubdate);
 				}).reverse();
-    res.send( _.first( toRet, 20 ) );
+    res.send( _.first( toRet, 15 ) );
 };
 
 exports.coverNews = function(req, res) {
 	var today = new Date(),
 	    from = new Date(),
 	    news;
-	from.setHours( today.getHours() - 72 );
+	from.setHours( today.getHours() - 48 );
 	news = _.filter( articles, function( article ) {
 				return new Date(article.pubdate) > from;
 			});				

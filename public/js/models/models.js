@@ -33,3 +33,27 @@ window.CoverNewsCollection = Backbone.Collection.extend({
     url: "/articles/cover"
 
 });
+
+window.Game = Backbone.Model.extend({
+
+    urlRoot: "/games",
+
+    defaults: {
+        id: null,
+        home: "",
+        iconHome: null,
+        score: null,
+        away: "",
+        iconAway: null,
+        time: null
+    }
+
+});
+
+window.GamesCollection = Backbone.Collection.extend({
+
+    model: Game,
+
+    url: "/games"
+
+});

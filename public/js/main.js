@@ -2,7 +2,9 @@ var AppRouter = Backbone.Router.extend({
 
     routes: {
         "": "home",
-        "community": "community"
+        "noticias": "home",
+        "estadisticas": "stats",
+        "comenta": "community"
     },
 
     initialize: function () {
@@ -16,8 +18,6 @@ var AppRouter = Backbone.Router.extend({
         this.homeView = new LoadingView();
         $('#content').html(this.homeView.el);
 
-        setTimeout( function() {
-
         var articleList = new ArticlesCollection();
         var coverNewsList = new CoverNewsCollection();
 
@@ -28,7 +28,20 @@ var AppRouter = Backbone.Router.extend({
             $("#cover").html(new CoverNewsListView({model: coverNewsList}).el);
         } );
 
-    }, 1000);
+    },
+
+    stats: function() {
+
+        this._select("stats_link");
+
+        $('#content').html(new LoadingView().el);
+
+        var gamesList = new GamesCollection();
+
+        $.when( gamesList.fetch() ).done( function() {
+            $('#content').html(new StatsView().el);
+            $('#latestGames').html(new LatestGamesListView({model: gamesList }).el);
+        });
 
     },
 
@@ -38,11 +51,8 @@ var AppRouter = Backbone.Router.extend({
 
         $('#content').html(new LoadingView().el);
 
-        setTimeout( function() {
-
         var communityView = new CommunityView();
-        $('#content').html(communityView.el);        
-    }, 1000);
+        $('#content').html(communityView.el);
 
     },
 
@@ -62,7 +72,8 @@ var AppRouter = Backbone.Router.extend({
 
 });
 
-utils.loadTemplate(['HomeView', 'CommunityView', 'LoadingView', 'ArticleListItemView', 'CoverNewsListItemView'], function() {
+utils.loadTemplate(['HomeView', 'CommunityView', 'StatsView', 'LoadingView', 
+                    'GameListItemView', 'ArticleListItemView', 'CoverNewsListItemView'], function() {
     app = new AppRouter();
     Backbone.history.start();
 });
