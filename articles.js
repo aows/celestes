@@ -44,18 +44,23 @@ exports.parseFeeds = function() {
 		  	})
 		  	.on('readable', function() {
 		    	var stream = this, item;
+		    	var regex = /(<([^>]+)>)/ig;
+		    	var regexImg = /src=["|'](.+?[\.jpg|\.gif|\.png])["|']/;
 		    	while (item = stream.read()) {
 		    		var article = {
 		    			id: item.link,
 			      		link: item.link,
 			      		title: item.title,
-			      		summary: item.summary,
-			      		description: item.description,
+			      		summary: item.summary ? item.summary.replace(regex, "") : null,
+			      		description: item.description.replace(regex, ""),
 			      		pubdate: item.pubdate,
 			      		image: item.image,
 			      		source: source.name,
 			      		score: 0
 		    		};
+		    		if ( item.description.match( regexImg ) ) {
+		    			article.descImage = item.description.match( regexImg )[1];
+		    		}
 		    		request( { url: "https://api.facebook.com/method/fql.query?query=select total_count,like_count,comment_count,share_count,click_count from link_stat where url='" + item.link + "'&format=json",
 		    			       timeout: 2000 },
 		    			function( error, response, body ) {

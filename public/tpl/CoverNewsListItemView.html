@@ -1,3 +1,7 @@
-<p><img src='<%= image.url %>' ?></p>
-<h2><%= title %></h2>
-<p><%= formattedDate %></p>
+<div class="card mainnews">
+	{{#if descImage}}
+		<img class="img-responsive" src='{{ descImage }}' ?>
+	{{/if}}
+	<p class="card-title">{{ title }}</p>
+	<p>{{ description }} [...]</p>
+</div>
