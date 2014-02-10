@@ -50,7 +50,7 @@ window.CoverNewsListView = Backbone.View.extend({
             // format the date
             article.set("formattedDate", new Date(article.get("pubdate")).format("hh:MM dd/mm/yy"));
             // shortening description
-            var text = article.get("description").split(' ').slice(0, 60).join(' ');
+            var text = article.get("description").split(' ').slice(0, 40).join(' ');
             article.set("description", text);
 
             $('.row', this.el).append(new CoverNewsListItemView({model: article}).render().el);
