@@ -36,8 +36,6 @@ window.CoverNewsCollection = Backbone.Collection.extend({
 
 window.Game = Backbone.Model.extend({
 
-    urlRoot: "/games",
-
     defaults: {
         id: null,
         home: "",
@@ -57,3 +55,26 @@ window.GamesCollection = Backbone.Collection.extend({
     url: "/games"
 
 });
+
+window.NextGame = Backbone.Collection.extend({
+
+    model: Game,
+
+    url: "/games/next"
+
+});
+
+window.Team = Backbone.Model.extend({
+    defaults: {
+        team: "",
+        points: 0
+    }
+});
+
+window.TeamsCollection = Backbone.Collection.extend({
+
+    model: Team,
+
+    url: "/standings"
+
+})

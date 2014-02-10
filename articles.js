@@ -6,7 +6,8 @@ var FeedParser = require('feedparser')
 var sources = [ { name: 'Moi Celeste', url: 'http://www.moiceleste.com/feeds/posts/default?alt=rss' },
                 { name: 'Noticias Celta', url: 'http://feeds.feedburner.com/noticiascelta/tMXm' },
                 { name: 'Marca.com', url: 'http://marca.feedsportal.com/rss/futbol_equipos_celta.xml' },
-                { name: 'La Voz de Galicia', url: 'http://www.lavozdegalicia.es/celta/index.xml' } ];
+                { name: 'La Voz de Galicia', url: 'http://www.lavozdegalicia.es/celta/index.xml' },
+                { name: 'celtavigo.net', url: 'http://www.celtavigo.net/es/primer-equipo/noticias?format=feed&type=rss' } ];
 
 exports.showAll = function(req, res) {
 	var toRet = _.sortBy( articles, function( article ) {

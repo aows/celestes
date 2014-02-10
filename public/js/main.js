@@ -37,10 +37,15 @@ var AppRouter = Backbone.Router.extend({
         $('#content').html(new LoadingView().el);
 
         var gamesList = new GamesCollection();
+        var nextGame = new NextGame();
+        var standings = new TeamsCollection();
 
-        $.when( gamesList.fetch() ).done( function() {
+        $.when( gamesList.fetch(), nextGame.fetch(), standings.fetch() ).done( function() {
             $('#content').html(new StatsView().el);
+            $('#nextGame').html(new NextGameView({model: nextGame }).el)
             $('#latestGames').html(new LatestGamesListView({model: gamesList }).el);
+            $('#standings_first').html(new StandingsView({ model: new TeamsCollection( _.first( standings.models, 10 ) ) }).el);
+            $('#standings_last').html(new StandingsView({ model: new TeamsCollection( _.last( standings.models, 10 ) ) }).el);
         });
 
     },
@@ -73,7 +78,8 @@ var AppRouter = Backbone.Router.extend({
 });
 
 utils.loadTemplate(['HomeView', 'CommunityView', 'StatsView', 'LoadingView', 
-                    'GameListItemView', 'ArticleListItemView', 'CoverNewsListItemView'], function() {
+                    'GameListItemView', 'NextGameView', 'ArticleListItemView', 
+                    'StandingsItemView', 'CoverNewsListItemView'], function() {
     app = new AppRouter();
     Backbone.history.start();
 });
