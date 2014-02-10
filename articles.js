@@ -1,35 +1,33 @@
 var FeedParser = require('feedparser')
     request = require('request'),
     _ = require("underscore"),
-    articles = [];
+    articles = [],
+    cover = [];
 
 var sources = [ { name: 'Moi Celeste', url: 'http://www.moiceleste.com/feeds/posts/default?alt=rss' },
                 { name: 'Noticias Celta', url: 'http://feeds.feedburner.com/noticiascelta/tMXm' },
                 { name: 'Marca.com', url: 'http://marca.feedsportal.com/rss/futbol_equipos_celta.xml' },
-                { name: 'La Voz de Galicia', url: 'http://www.lavozdegalicia.es/celta/index.xml' },
-                { name: 'celtavigo.net', url: 'http://www.celtavigo.net/es/primer-equipo/noticias?format=feed&type=rss' } ];
+                { name: 'La Voz de Galicia', url: 'http://www.lavozdegalicia.es/celta/index.xml' } ];
 
 exports.showAll = function(req, res) {
-	var toRet = _.sortBy( articles, function( article ) {
-					return new Date(article.pubdate);
-				}).reverse();
-    res.send( _.first( toRet, 15 ) );
+	if ( _.isEmpty( cover ) ) {
+		cover = parseCover();
+		articles = parseArticles();
+	}
+    res.send( _.first( articles, 10 ) );
 };
 
 exports.coverNews = function(req, res) {
-	var today = new Date(),
-	    from = new Date(),
-	    news;
-	from.setHours( today.getHours() - 48 );
-	news = _.filter( articles, function( article ) {
-				return new Date(article.pubdate) > from;
-			});				
-	news = _.sortBy( news, "score").reverse();
-	res.send( _.first( news, 3 ) );
-}
+	if ( _.isEmpty( cover ) ) {
+		cover = parseCover();
+		articles = parseArticles();
+	}
+	res.send( cover );
+};
 
 exports.parseFeeds = function() {
 	articles = [];
+	cover = [];
 	_.each( sources, function( source ) {
 
 		request( source.url, { timeout: 5000 } )
@@ -78,5 +76,36 @@ exports.parseFeeds = function() {
 			});
 	});
 
+};
+
+function parseCover() {
+	var today = new Date(),
+	    from = new Date(),
+	    news;
+	from.setHours( today.getHours() - 48 );
+	news = _.filter( articles, function( article ) {
+				return new Date(article.pubdate) > from;
+			});				
+	news = _.sortBy( news, "score").reverse();
+	return _.first( news, 3 );
+};
+
+function parseArticles() {
+	var tmpArticles = [],
+	    tmpCover = [];
+
+	articles = _.sortBy( articles, function( article ) {
+					return new Date(article.pubdate);
+				}).reverse();
+
+	tmpCover = _.pluck( cover, "link" );
+	
+	_.each( articles, function( article ) {
+		if ( !_.contains( tmpCover, article.link ) ) {
+			tmpArticles.push( article );
+		}
+	});
+
+	return tmpArticles;
 };
 
