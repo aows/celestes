@@ -13,7 +13,7 @@ window.ArticleListView = Backbone.View.extend({
             $(this.el).append(new ArticleListItemView({model: article}).render().el);
         }, this);
 
-        $( 'abbr.timeago', this.el ).timeago();
+        $( 'span.timeago', this.el ).timeago();
 
         return this;
     }
