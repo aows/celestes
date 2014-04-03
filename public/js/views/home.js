@@ -5,6 +5,11 @@ window.HomeView = Backbone.View.extend({
     },
 
     render:function () {
+        /*
+        $.get( 'https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=UCTv-XvfzLX3i4IGWAm4sbmA&q=celta&key=AIzaSyDMppAkI3AMT9B04Ysi9SbZUp_RgOM3hpg&order=date', function( data ) {
+            console.debug( data );
+        });
+        */
         $(this.el).html(this.template());
         return this;
     }
